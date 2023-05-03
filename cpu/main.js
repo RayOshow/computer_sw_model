@@ -93,7 +93,6 @@ setRam(14, 0x00000002) // r2 레지스터
 setRam(15, 0x00000200) // LDA
 setRam(16, 0x000000F3) // r2 레지스터
 
-
 for(let i = 0; i < 6 ; i++) {
     console.log('Cpu run Index:' + i)
     doCpu()

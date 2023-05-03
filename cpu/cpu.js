@@ -1,5 +1,5 @@
 import * as constants from './constansts.js';
-import * as ram from './ram.js'
+import * as mmu from './mmu.js'
 
 /**
  * CPU - Register
@@ -7,8 +7,12 @@ import * as ram from './ram.js'
 class Registers {
 
     constructor() {
+        // 프로그램 실행 기본 위치
+        // 가상 메모리 용
+        this.base = 0x00000000;        
         // 프로그램 실행 위치
         this._pc = 0x00000000;
+
         // 범용 레지스터
         this.rg1 = 0x00000000; 
         this.rg2 = 0x00000000;
@@ -129,7 +133,7 @@ function Alu(opcode, regCode1, regCode2) {
 export function doCpu() {
 
     // fectch
-    const opcode = ram.getRam(registers.pc)
+    const opcode = mmu.getData(registers.pc)
 
     console.log('opcode:: ' + opcode.toString(16))
 
@@ -138,8 +142,8 @@ export function doCpu() {
 
     if (opcode & constants.OPCD_COND_CALC) { // 계산 명령어
 
-        operand1 = ram.getRam(registers.pc)
-        operand2 = ram.getRam(registers.pc)
+        operand1 = mmu.getData(registers.pc)
+        operand2 = mmu.getData(registers.pc)
 
         // 계산의 경우 Alu 실행
         Alu(opcode, operand1, operand2) 
@@ -149,7 +153,7 @@ export function doCpu() {
 
     } else if (opcode & constants.OPCD_COND_JMP) {
 
-        operand1 = ram.getRam(registers.pc)
+        operand1 = mmu.getData(registers.pc)
 
         /*
          r2에 비교 대상값 , r1에 비교 기준 값.
@@ -195,16 +199,15 @@ export function doCpu() {
         }    
 
         console.log('operand1:: ' + operand1.toString(16))
-        console.log('pc:::' + registers.pc.toString(16))
 
     } else if (opcode & constants.OPCD_COND_DATA_TF) {
         
         switch(opcode) {
             case constants.OPCD_LDA:
                 // fetch operand:: LDA의 Operand1 -> Register 위치 
-                operand1 = ram.getRam(registers.pc)
+                operand1 = mmu.getData(registers.pc)
                 // fetch operand:: LDA의 Operand2 -> 값이 담긴 메모리 addr 
-                operand2 = ram.getRam(ram.getRam(registers.pc))
+                operand2 = mmu.getData(mmu.getData(registers.pc))
 
                 console.log('[LDA]:: ')
                 console.log('operand1:: ' + operand1.toString(16))
@@ -216,9 +219,9 @@ export function doCpu() {
 
             case constants.OPCD_STA:
                 // fetch operand:: LDA의 Operand1 -> Register 위치 
-                operand1 = ram.getRam(registers.pc)
+                operand1 = mmu.getData(registers.pc)
                 // fetch operand:: 저장될 메모리 addr    
-                operand2 = ram.getRam(registers.pc)
+                operand2 = mmu.getData(registers.pc)
                 
                 const value = registers.getRg(operand1)
 
@@ -227,7 +230,7 @@ export function doCpu() {
                 console.log('operand2:: ' + operand2.toString(16))
                 
                 // LDA의 Operand2 -> 값이 담긴 메모리 addr 
-                ram.setRam(operand2, value)
+                mmu.setData(operand2, value)
 
                 break;     
         }
