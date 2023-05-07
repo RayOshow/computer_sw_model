@@ -1,6 +1,6 @@
-import { printRam, setRam, getRam } from "./ram.js";
-import { doCpu } from "./cpu.js";
-import { test1 } from "./storage.js";
+import { printRam, setRam, getRam } from "../src/ram.js";
+import { doCpu } from "../src/cpu.js";
+import { test1 } from "../src/storage.js";
 
 /*
 =====
