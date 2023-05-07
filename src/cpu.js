@@ -222,6 +222,20 @@ export function doCpu() {
 
                 break;
 
+            case constants.OPCD_LD:
+                // fetch operand:: LDA의 Operand1 -> Register 위치
+                operand1 = mmu.getData(registers.pc);
+                // fetch operand:: LDA의 Operand2 -> 값
+                operand2 = mmu.getData(registers.pc);
+
+                console.log("[LD]:: ");
+                console.log("operand1:: " + operand1.toString(16));
+                console.log("operand2:: " + operand2.toString(16));
+
+                registers.setRg(operand1, operand2);
+
+                break;
+
             case constants.OPCD_STA:
                 // fetch operand:: LDA의 Operand1 -> Register 위치
                 operand1 = mmu.getData(registers.pc);
