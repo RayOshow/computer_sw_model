@@ -1,5 +1,5 @@
-import { printRam, setRam, getRam } from './ram.js'
-import { doCpu } from './cpu.js'
+import { setRam } from "../src/ram.js";
+import { doCpu } from "../src/cpu.js";
 
 /*
 =====
@@ -60,42 +60,40 @@ test(12)로 함수가 호출 된 상황.
 
     0x00000200 // Jump when Greater
     0x000000F3
-     
-
+    
 */
 
 // 변수 값 저장
-setRam(0x000000F0, 3) 
-setRam(0x000000F1, 5)
-setRam(0x000000F2, 12)
-setRam(0x000000F3, 0x000001FF)
+setRam(0x000000f0, 3);
+setRam(0x000000f1, 5);
+setRam(0x000000f2, 12);
+setRam(0x000000f3, 0x000001ff);
 
-setRam(0, 0x00010000) // LDA
-setRam(1, 0x00000001) // r1 레지스터
-setRam(2, 0x000000F0) // 값이 담겨 있는 메모리 위치
+setRam(0, 0x00010000); // LDA
+setRam(1, 0x00000001); // r1 레지스터
+setRam(2, 0x000000f0); // 값이 담겨 있는 메모리 위치
 
-setRam(3, 0x00010000) // LDA
-setRam(4, 0x00000002) // r2 레지스터
-setRam(5, 0x000000F1) // 값이 담겨 있는 메모리 위치
+setRam(3, 0x00010000); // LDA
+setRam(4, 0x00000002); // r2 레지스터
+setRam(5, 0x000000f1); // 값이 담겨 있는 메모리 위치
 
-setRam(6, 0x00000001) // ADD
-setRam(7, 0x00000001) // r1 레지스터
-setRam(8, 0x00000002) // r2 레지스터
+setRam(6, 0x00000001); // ADD
+setRam(7, 0x00000001); // r1 레지스터
+setRam(8, 0x00000002); // r2 레지스터
 
-setRam(9, 0x00010000) // LDA
-setRam(10, 0x00000002) // r2 레지스터
-setRam(11, 0x000000F2) // 값이 담겨 있는 메모리 위치
+setRam(9, 0x00010000); // LDA
+setRam(10, 0x00000002); // r2 레지스터
+setRam(11, 0x000000f2); // 값이 담겨 있는 메모리 위치
 
-setRam(12, 0x00000005) // CMP
-setRam(13, 0x00000001) // r1 레지스터
-setRam(14, 0x00000002) // r2 레지스터
+setRam(12, 0x00000005); // CMP
+setRam(13, 0x00000001); // r1 레지스터
+setRam(14, 0x00000002); // r2 레지스터
 
-setRam(15, 0x00000200) // LDA
-setRam(16, 0x000000F3) // r2 레지스터
+setRam(15, 0x00000200); // LDA
+setRam(16, 0x000000f3); // r2 레지스터
 
-
-for(let i = 0; i < 6 ; i++) {
-    console.log('Cpu run Index:' + i)
-    doCpu()
-    console.log('')
+for (let i = 0; i < 6; i++) {
+    console.log("Cpu run Index:" + i);
+    doCpu();
+    console.log("");
 }
