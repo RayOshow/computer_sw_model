@@ -5,6 +5,7 @@
 
 import * as constants from './constansts.js';
 import * as cache from './cache.js'
+import * as cache from './IOdevice.js'
 
 /**
  * 
@@ -20,11 +21,23 @@ import * as cache from './cache.js'
  * 이를 통해 하나의 프로세스가 다른 프로세스의 메모리를 손상시키는 등의 문제를 방지할 수 있습니다.
  * 
  */
+export const IO_CONTROLLER_CNOTROL = 0xFF00000001
+export const IO_CONTROLLER_BASE_ADDR = 0xFF00000002
+export const IO_CONTROLLER_MEM_SIZE = 0xFF00000003
+export const IO_CONTROLLER_DATA_SIZE = 0xFF00000004
 
 export function getData(addr) {
 
     if (addr & constants.MMU_RESERVED_ADDR) {
         // 
+
+        switch(addr) {
+            case constants.IO_CONTROLLER_CNOTROL:
+            case constants.IO_CONTROLLER_BASE_ADDR:                
+            case constants.IO_CONTROLLER_MEM_SIZE:
+            case constants.IO_CONTROLLER_DATA_SIZE:               
+        } 
+
     } else {
         // 램 접근
         return cache.getData(addr)
@@ -34,6 +47,13 @@ export function getData(addr) {
 export function setData(addr, value) {
 
     if (addr & constants.MMU_RESERVED_ADDR) {
+
+        switch(addr) {
+            case constants.IO_CONTROLLER_CNOTROL:
+            case constants.IO_CONTROLLER_BASE_ADDR:                
+            case constants.IO_CONTROLLER_MEM_SIZE:
+            case constants.IO_CONTROLLER_DATA_SIZE:               
+        } 
         // 
     } else {
         // 램 접근
