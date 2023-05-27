@@ -39,24 +39,24 @@ for (let i = 0; i < CACHE_BLOCK_CNT; i++) {
 }
 
 export function getData(addr) {
+
     const index = (addr & CACHE_INDEX_BIT) >> CACHE_OFFSET_BIT_CNT;
     const tag = addr & CACHE_TAG_BIT;
     const offset = addr & CACHE_OFFSET_BIT;
-
-    // console.log('[Cache][index]: ' + index)
-    // console.log('[Cache][tag]: ' + tag.toString(16))
-    // console.log('[Cache][offset]: ' + offset)
 
     // 캐쉬 hit 확인
     if (data[index].isInit || data[index].tag !== tag) {
         let _addr;
 
+        console.log('index['+ index +']')
+        
         // tag 정보가 있다는 것은 write back 해야 한다는 것을 의미
-        if (data[index].tag) {
+        if (data[index].tag !== null) {
             _addr = data[index].tag | (index << CACHE_OFFSET_BIT_CNT);
-            console.log("[Cache][write_back]:: [0x" + _addr + "~+3]");
+            console.log("[Cache][write_back]:: [0x" + _addr.toString(16) + "~+3]");
 
             for (let i = 0; i < CACHE_BLOCK_SIZE; i++) {
+                //console.log("[Cache2][write_back]:: [0x" + (_addr | i).toString(16) + "]" + data[index].arr[i]);
                 ram.setRam(_addr | i, data[index].arr[i]);
             }
         }
@@ -90,12 +90,3 @@ export function setData(addr, value) {
     // 데이터 저장.
     data[index].arr[offset] = value;
 }
-
-// ram.setRam(0, 0x00010000) // LDA
-// ram.setRam(1, 0x00000001) // r1 레지스터
-// ram.setRam(2, 0x000000F0) // 값이 담겨 있는 메모리 위치
-// console.log(getData(0x01))
-
-// setData(0x01, 0xFF)
-// console.log(data[0].arr[1])
-// console.log(getData(0x01))
