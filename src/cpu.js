@@ -64,7 +64,7 @@ class Registers {
     }
 }
 
-let registers = new Registers();
+export let registers = new Registers();
 
 /**
  * CPU - Arithmetic Logic Unit
@@ -74,7 +74,7 @@ let registers = new Registers();
  * @param {*} regCode1 명령어의 대상이 되는 레지스터 코드, ALU의 계산 결과물이 담김.
  * @param {*} regCode2 명령어의 대상이 되는 레지스터 코드
  */
-function Alu(opcode, regCode1, regCode2) {
+export function alu(opcode, regCode1, regCode2) {
     console.log("[ALU]:: " + opcode.toString(16));
 
     switch (opcode) {
@@ -147,7 +147,7 @@ export function doCpu() {
         operand2 = ram.getRam(registers.pc);
 
         // 계산의 경우 Alu 실행
-        Alu(opcode, operand1, operand2);
+        alu(opcode, operand1, operand2);
 
         console.log("operand1:: " + operand1.toString(16));
         console.log("operand2:: " + operand2.toString(16));
